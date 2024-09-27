@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.hqapp_module15.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
-class HQFragment : Fragment() {
+class HQFragment : Fragment(), HQItemListener {
 
     private var columnCount = 1
 
@@ -41,18 +42,19 @@ class HQFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyhqRecyclerViewAdapter(PlaceholderContent.ITEMS)
+                adapter = MyhqRecyclerViewAdapter(PlaceholderContent.ITEMS, this@HQFragment)
             }
         }
         return view
     }
 
-    companion object {
+    override fun onItemSelected(position: Int) {
+        findNavController().navigate(R.id.HQDetailsFragment)
+    }
 
-        // TODO: Customize parameter argument names
+    companion object {
         const val ARG_COLUMN_COUNT = "column-count"
 
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             HQFragment().apply {
