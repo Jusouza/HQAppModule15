@@ -26,13 +26,11 @@ class MyhqRecyclerViewAdapter(
                 false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.bindItem(item)
 
         holder.view.setOnClickListener{
             listener.onItemSelected(position)
@@ -41,13 +39,11 @@ class MyhqRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val view: View = binding.root
-        val idView: TextView = binding.txtTitle
-        val contentView: TextView = binding.txtDescription
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+    inner class ViewHolder(private val binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val view = binding.root
+        fun bindItem(item: PlaceholderItem){
+            binding.hqItem = item
+            binding.executePendingBindings()
         }
     }
 
